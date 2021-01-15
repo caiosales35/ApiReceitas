@@ -1,4 +1,4 @@
-# API Recipe
+# API - Recipe
 
 Projeto de api para site de receitas.
 
