@@ -19,6 +19,10 @@ class Api::V1::RecipesController < Api::V1::ApiController
         render json: @recipe
     end
 
+    def destroy
+        @recipe.destroy
+    end
+
     private
         def set_recipe
             @recipe = Recipe.find(params[:id])
