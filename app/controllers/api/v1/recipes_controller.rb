@@ -23,6 +23,10 @@ class Api::V1::RecipesController < Api::V1::ApiController
         @recipe.destroy
     end
 
+    def update
+        @recipe.update(recipe_params)
+    end
+
     private
         def set_recipe
             @recipe = Recipe.find(params[:id])
