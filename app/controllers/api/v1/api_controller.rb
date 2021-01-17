@@ -1,7 +1,7 @@
 module Api::V1
     class ApiController < ApplicationController
         # Métodos globais (autenticação, etc)
-        before_action :authorized
+        # before_action :authorized
 
         def encode_token(payload)
             #exp_time = Time.now.to_i + 24 * 3600

@@ -1,4 +1,5 @@
 class Api::V1::RecipesController < Api::V1::ApiController
+    before_action :set_user, only: [:create]
     before_action :set_recipe, only: [:show, :update, :destroy]
 
     def index
@@ -8,7 +9,12 @@ class Api::V1::RecipesController < Api::V1::ApiController
 
     def create
         @recipe = Recipe.new(recipe_params)
-        if @recipe.save
+
+        if @user
+            @recipe.user_id = @user.id
+        end
+
+        if @recipe.save!
             render json: @recipe, status: :created
         else
             render json: @recipe.errors, status: :unprocessable_entity
@@ -30,6 +36,12 @@ class Api::V1::RecipesController < Api::V1::ApiController
     private
         def set_recipe
             @recipe = Recipe.find(params[:id])
+        end
+
+        def set_user
+            if logged_in?
+                @user = logged_in_user
+            end
         end
 
         def recipe_params
