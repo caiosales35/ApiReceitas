@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :users, only: [:create]
       post "/login", to: "users#login"
       get "/auto_login", to: "users#auto_login"
+      get "/recipes/user/:id", to: "recipes#recipes_user"
     end
   end
 

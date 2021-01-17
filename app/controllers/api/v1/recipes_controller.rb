@@ -33,6 +33,11 @@ class Api::V1::RecipesController < Api::V1::ApiController
         @recipe.update(recipe_params)
     end
 
+    def recipes_user
+        @recipe = Recipe.where(:user_id => params[:id])
+        render json: @recipe
+    end
+
     private
         def set_recipe
             @recipe = Recipe.find(params[:id])
