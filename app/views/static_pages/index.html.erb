@@ -9,6 +9,15 @@
     </head>
 
     <body>
+        <script>
+            function listRecipesById(){
+                var id = document.getElementById("userIdRecipes").value;
+                var form = document.getElementById("formListarReceitasId");
+                form.action = "api/v1/recipes/user/" + id;
+                form.submit();
+            }
+        </script>
+
         <div class="container pt-4 pb-4">
             
             <div class="jumbotron">
@@ -57,9 +66,19 @@
 
             <div class="row mt-4">
                 <div class="col-12 col-sm-6">
-                    <form method="get" id="formListarReceitas" action="api/v1/recipes" >
+                    <form method="get" id="formListarReceitas" action="api/v1/recipes/users" >
                         <h3>Rota para Listar Receitas</h3>
                         <button type="submit" class="btn btn-success mt-3">Listar Receitas</button>
+                    </form>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <form id="formListarReceitasId">
+                        <h3>Rota para Listar Receitas de um Usuario</h3>
+                        <div class="mb-3">
+                            <label for="userIdRecipes" class="form-label">Id do Usuario</label>
+                            <input type="number" class="form-control" id="userIdRecipes" required min="0" value="0">
+                        </div>
+                        <button onclick="listRecipesById();" class="btn btn-success mt-3">Listar Receitas</button>
                     </form>
                 </div>
             </div>
