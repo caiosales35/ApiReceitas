@@ -9,13 +9,51 @@
     </head>
 
     <body>
-        <div class="container">
+        <div class="container pt-4 pb-4">
+            
             <div class="jumbotron">
                 <h1>Testes - API de Receitas</h1>
                 <p>
                     Nesta pagina você encontra alguns formularios para submeter e receber a respectiva resposta da API.
                 </p>
             </div>
+
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <form method="post" id="formLogin" action="api/v1/login" >
+                        <h3>Rota de Login</h3>
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login!</button>
+                    </form>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <form method="post" id="formCadastro">
+                        <h3>Rota de Cadastro de Usuario</h3>
+                        <div class="mb-3">
+                            <label for="cadastroEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cadastroPassword" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="cadastroPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cadastroPasswordConfirmation" class="form-label">Confirmação de Senha</label>
+                            <input type="password" class="form-control" id="cadastroPasswordConfirmation" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cadastrar!</button>
+                    </form>
+                </div>
+            </div>
+            
+            
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
