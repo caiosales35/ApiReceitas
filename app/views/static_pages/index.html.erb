@@ -16,6 +16,13 @@
                 form.action = "api/v1/recipes/user/" + id;
                 form.submit();
             }
+
+            function showRecipe(){
+                var id = document.getElementById("idReceita").value;
+                var form = document.getElementById("formShow");
+                form.action = "api/v1/recipes/" + id;
+                form.submit();
+            }
         </script>
 
         <div class="container pt-4 pb-4">
@@ -67,7 +74,7 @@
             <div class="row mt-4">
                 <div class="col-12 col-sm-6">
                     <form method="get" id="formListarReceitas" action="api/v1/recipes/users" >
-                        <h3>Rota para Listar Receitas</h3>
+                        <h3>Rota para Listar Todas as Receitas</h3>
                         <button type="submit" class="btn btn-success mt-3">Listar Receitas</button>
                     </form>
                 </div>
@@ -83,6 +90,20 @@
                 </div>
             </div>
             
+            <hr>
+
+            <div class="row mt-4"
+                <div class="col-12 col-sm-6">
+                    <form id="formShow">
+                        <h3>Rota para Detalhes uma Receitas</h3>
+                        <div class="mb-3">
+                            <label for="idReceita" class="form-label">Id da Receita</label>
+                            <input type="number" class="form-control" id="idReceita" required min="0" value="0">
+                        </div>
+                        <button onclick="showRecipe();" class="btn btn-warning mt-3">Detalhes da Receita</button>
+                    </form>
+                </div>
+            </div>
             
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
