@@ -2,6 +2,7 @@
 <html lang="pt-br">
     <head charset=”UTF-8”>
         <title>Testes  de rotas</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <%= csrf_meta_tags %>
         <%= csp_meta_tag %>
 
@@ -89,6 +90,33 @@
                 }
                 xhr.send(json);
 
+            }
+
+            function loginToken(){
+                var token = document.getElementById("idToken").value;
+                url = "api/v1/auto_login";
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", url, true);
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+                xhr.onload = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status = 200){
+                            if (xhr.responseText){
+                                var response = JSON.parse(xhr.responseText);
+                                if (response.user_id) {
+                                    alert("Token de login valido - " + xhr.responseText);
+                                } else if(response.message){
+                                    alert("Token de login invalido!")
+                                } else {
+                                    alert(xhr.responseText);
+                                }
+                            }
+                        } 
+                        document.location.reload(true);
+                    }  
+                }
+                xhr.send();
             }
         </script>
 
@@ -250,8 +278,9 @@
                         <div class="col-md-4">
                             <button onclick="changeRecipe();" class="btn btn-primary mt-3">Atualizar Receita</button>
                         </div>
-                        <div class="col-md-8 mt-4">
-                            <small id="emailHelp" class="form-text text-muted">*Não é permitido modificar o usuário a qual a receita pertence</small>
+                        <div class="col-md-8 mt-2">
+                            <small id="emailHelp" class="form-text text-muted">*Campos não preenchidos são serão atualizados :)</small>
+                            <small id="emailHelp" class="form-text text-muted">**Não é permitido modificar o usuário a qual a receita pertence</small>
                         </div>
                     </div>
                 </div>
@@ -280,6 +309,21 @@
                     </form>
                     <button onclick="deleteRecipe();" class="btn btn-danger mt-3">Deletar Receita</button>
                 </div>
+            </div>
+
+            <hr>
+
+            <div class="row mt-4">
+                <div class="col-12 col-sm-6">
+                    <form id="formToken">
+                        <h3>Rota para testar Token de Login</h3>
+                        <div class="mb-3">
+                            <label for="idToken" class="form-label">Token</label>
+                            <input type="text" class="form-control" id="idToken" required>
+                        </div>
+                    </form>
+                    <button onclick="loginToken();" class="btn btn-success mt-3">Testar Token</button>
+                </div>           
             </div>
             
         </div>
