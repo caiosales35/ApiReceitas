@@ -27,7 +27,6 @@
             function deleteRecipe(){
                 var id = document.getElementById("idReceitaDelete").value;
                 url = "api/v1/recipes/" + id;
-
                 let xhr = new XMLHttpRequest();
                 xhr.open("DELETE", url, true);
                 xhr.onreadystatechange = function() {
@@ -48,6 +47,48 @@
                     }
                 }
                 xhr.send();
+            }
+
+            function changeRecipe(){
+                var id = document.getElementById("changeId").value;
+                url = "api/v1/recipes/" + id;
+                
+                var data = {};
+                
+                var title = document.getElementById("changeTitle").value;
+                var category = document.getElementById("changeCategory").value;
+                var preparation_time = document.getElementById("changePreparation_time").value;
+                var oven_time = document.getElementById("changeOven_time").value;
+                var ingredients = document.getElementById("changeIngredients").value;
+                var steps = document.getElementById("changeSteps").value;
+                var Image = document.getElementById("changeImage").value;
+
+                if (title != "") data.title = title;
+                if (category != "") data.category = category;
+                if (preparation_time != "") data.preparation_time = preparation_time;
+                if (oven_time != "") data.oven_time = oven_time;
+                if (ingredients != "") data.ingredients = ingredients;
+                if (steps != "") data.steps = steps;
+                if (Image != "") data.Image = Image;
+
+                var json = JSON.stringify(data);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("PUT", url, true);
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.onload = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.responseText){
+                            var response = JSON.parse(xhr.responseText);
+                            alert("Erro: " + response.status + " - Id " + response.error);
+                        } else {
+                            alert("Receita atualizada com sucesso!");
+                        }
+                        document.location.reload(true);
+                    }  
+                }
+                xhr.send(json);
+
             }
         </script>
 
@@ -159,6 +200,60 @@
                         </div>
                         <button type="submit" class="btn btn-primary mt-3">Criar Receita</button>
                     </form>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <form id="formChangeRecipe">
+                        <h3>Rota para Atualizar uma Receita</h3>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">    
+                                <label for="changeId" class="form-label">Id da Receita</label>
+                                <input type="number" class="form-control" id="changeId" name="id" required min="0" value="0" required>
+                            </div>
+                            <div class="form-group col-md-8">    
+                                <label for="changeTitle" class="form-label">Titulo</label>
+                                <input type="text" class="form-control" id="changeTitle" name="title">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="changeCategory" class="form-label">Categoria</label>
+                            <select class="form-control" id="changeCategory" name="category">
+                                <option value="apettizer">Aperitivo</option>
+                                <option value="entree">Entrada</option>
+                                <option value="snack">Lanche</option>
+                                <option value="desert">Sobremesa</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="changePreparation_time">Tempo para preparar</label>
+                                <input type="number" class="form-control" id="changePreparation_time" name="preparation_time" min="0" step="0.5" value="0">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="changeOven_time">Tempo no forno</label>
+                                <input type="number" class="form-control" id="changeOven_time" name="oven_time" min="0" step="0.5" value="0">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="changeIngredients">Ingredientes</label>
+                            <textarea class="form-control" id="changeIngredients" name="ingredients" rows="2" style="resize: none"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="changeSteps">Passo a Passo</label>
+                            <textarea class="form-control" id="changeSteps" name="steps" rows="2" style="resize: none"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="changeImage" class="form-label">URL de uma imagem da receita (opcional)</label>
+                            <input type="text" class="form-control" id="changeImage" name="Image">
+                        </div>
+                    </form>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <button onclick="changeRecipe();" class="btn btn-primary mt-3">Atualizar Receita</button>
+                        </div>
+                        <div class="col-md-8 mt-4">
+                            <small id="emailHelp" class="form-text text-muted">*Não é permitido modificar o usuário a qual a receita pertence</small>
+                        </div>
+                    </div>
                 </div>
             </div>
             
