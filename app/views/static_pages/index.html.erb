@@ -23,6 +23,30 @@
                 form.action = "api/v1/recipes/" + id;
                 form.submit();
             }
+
+            function deleteRecipe(){
+                var id = document.getElementById("idReceitaDelete").value;
+                url = "api/v1/recipes/" + id;
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("DELETE", url, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status = 200) {
+                            if (xhr.responseText){
+                                let response = JSON.parse(xhr.responseText);
+                                if (response.status = 404){
+                                    alert(response.status + " - Id " + response.error);
+                                }
+                            } else {
+                                alert("Receita removida com Sucesso!");
+                            }
+                            document.location.reload(true);
+                        }
+                    }
+                }
+                xhr.send();
+            }
         </script>
 
         <div class="container pt-4 pb-4">
@@ -73,7 +97,7 @@
 
             <div class="row mt-4">
                 <div class="col-12 col-sm-6">
-                    <form method="get" id="formListarReceitas" action="api/v1/recipes/users" >
+                    <form method="get" id="formListarReceitas" action="api/v1/recipes">
                         <h3>Rota para Listar Todas as Receitas</h3>
                         <button type="submit" class="btn btn-success mt-3">Listar Receitas</button>
                     </form>
@@ -92,16 +116,26 @@
             
             <hr>
 
-            <div class="row mt-4"
+            <div class="row mt-4">
                 <div class="col-12 col-sm-6">
                     <form id="formShow">
-                        <h3>Rota para Detalhes uma Receitas</h3>
+                        <h3>Rota para Detalhes uma Receita</h3>
                         <div class="mb-3">
                             <label for="idReceita" class="form-label">Id da Receita</label>
                             <input type="number" class="form-control" id="idReceita" required min="0" value="0">
                         </div>
                         <button onclick="showRecipe();" class="btn btn-warning mt-3">Detalhes da Receita</button>
                     </form>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <form id="formDelete">
+                        <h3>Rota para Deletar uma Receita</h3>
+                        <div class="mb-3">
+                            <label for="idReceitaDelete" class="form-label">Id da Receita</label>
+                            <input type="number" class="form-control" id="idReceitaDelete" required min="0" value="0">
+                        </div>
+                    </form>
+                    <button onclick="deleteRecipe();" class="btn btn-danger mt-3">Deletar Receita</button>
                 </div>
             </div>
             
