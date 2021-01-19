@@ -118,6 +118,47 @@
                 }
                 xhr.send();
             }
+
+            function createRecipeLogged(){
+                url = "api/v1/recipes/";
+
+                var token = document.getElementById("loggedToken").value;
+                var data = {};
+                
+                data.title = document.getElementById("loggedTitle").value;
+                data.category = document.getElementById("loggedCategory").value;
+                data.preparation_time = document.getElementById("loggedPreparation_time").value;
+                data.oven_time = document.getElementById("loggedOven_time").value;
+                data.ingredients = document.getElementById("loggedIngredients").value;
+                data.steps = document.getElementById("loggedSteps").value;
+                data.Image = document.getElementById("loggedImage").value;
+                
+
+                if (Image != "") data.Image = Image;
+
+                var json = JSON.stringify(data);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+                xhr.onload = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status = 200){
+                            if (xhr.responseText){
+                                if (xhr.status != "201"){
+                                    alert("ERRO: " + xhr.responseText);
+                                }else {
+                                    var response = JSON.parse(xhr.responseText);
+                                    alert("Criada com sucesso! - Id: " + response.id);
+                                }
+                            }
+                        } 
+                        document.location.reload(true);
+                    }  
+                }
+                xhr.send(json);
+            }
         </script>
 
         <div class="container pt-4 pb-4">
@@ -141,7 +182,7 @@
                             <label for="loginPassword" class="form-label">Senha</label>
                             <input type="password" class="form-control" id="loginPassword" name="password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Login!</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
                     </form>
                 </div>
                 <div class="col-12 col-sm-6">
@@ -159,7 +200,7 @@
                             <label for="cadastroPasswordConfirmation" class="form-label">Confirmação de Senha</label>
                             <input type="password" class="form-control" id="cadastroPasswordConfirmation" name="password_confirmation" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Cadastrar!</button>
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
                     </form>
                 </div>
             </div>
@@ -296,33 +337,82 @@
                             <label for="idReceita" class="form-label">Id da Receita</label>
                             <input type="number" class="form-control" id="idReceita" required min="0" value="0">
                         </div>
-                        <button onclick="showRecipe();" class="btn btn-warning mt-3">Detalhes da Receita</button>
+                        <button onclick="showRecipe();" class="btn btn-warning mt-3 mb-3">Detalhes da Receita</button>
                     </form>
-                </div>
-                <div class="col-12 col-sm-6">
-                    <form id="formDelete">
+
+                    <hr>
+                    <form id="formDelete" class="mt-4">
                         <h3>Rota para Deletar uma Receita</h3>
                         <div class="mb-3">
                             <label for="idReceitaDelete" class="form-label">Id da Receita</label>
                             <input type="number" class="form-control" id="idReceitaDelete" required min="0" value="0">
                         </div>
                     </form>
-                    <button onclick="deleteRecipe();" class="btn btn-danger mt-3">Deletar Receita</button>
-                </div>
-            </div>
+                    <button onclick="deleteRecipe();" class="btn btn-danger mt-3 mb-3">Deletar Receita</button>
 
-            <hr>
-
-            <div class="row mt-4">
-                <div class="col-12 col-sm-6">
-                    <form id="formToken">
-                        <h3>Rota para testar Token de Login</h3>
+                    <hr>
+                    <form id="formToken" class="mt-4">
+                        <h3>Rota para Testar Token de Login</h3>
                         <div class="mb-3">
                             <label for="idToken" class="form-label">Token</label>
                             <input type="text" class="form-control" id="idToken" required>
                         </div>
                     </form>
                     <button onclick="loginToken();" class="btn btn-success mt-3">Testar Token</button>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <form id="formCreateRecipeLogged">
+                        <h3>Rota para Criar uma Receita Logado</h3>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="loggedTitle" class="form-label">Titulo</label>
+                                <input type="text" class="form-control" id="loggedTitle" name="title" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="loggedCategory" class="form-label">Categoria</label>
+                                <select class="form-control" required id="loggedCategory" name="category">
+                                    <option value="apettizer">Aperitivo</option>
+                                    <option value="entree">Entrada</option>
+                                    <option value="snack">Lanche</option>
+                                    <option value="desert">Sobremesa</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="loggedPreparation_time">Tempo para preparar</label>
+                                <input type="number" class="form-control" id="loggedPreparation_time" name="preparation_time" required min="0" step="0.5" value="0">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="loggedOven_time">Tempo no forno</label>
+                                <input type="number" class="form-control" id="loggedOven_time" name="oven_time" required min="0" step="0.5" value="0">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loggedIngredients">Ingredientes</label>
+                            <textarea class="form-control" id="loggedIngredients" name="ingredients" rows="2" required style="resize: none"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loggedSteps">Passo a Passo</label>
+                            <textarea class="form-control" id="loggedSteps" name="steps" rows="2" required style="resize: none"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loggedImage" class="form-label">URL de uma imagem da receita (opcional)</label>
+                            <input type="text" class="form-control" id="loggedImage" name="Image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="loggedToken" class="form-label">Token de Login</label>
+                            <input type="text" class="form-control" id="loggedToken" required>
+                        </div>
+                    </form>
+                    <div class="form-row">
+                        <div class="col-md-3">
+                            <button onclick="createRecipeLogged();" class="btn btn-primary mt-3">Criar Receita</button>
+                        </div>
+                        <div class="col-md-9 mt-4">
+                            <small id="emailHelp" class="form-text text-muted">*A receita será atribuida ao usuário que gerou o token de login</small>
+                        </div>
+                    </div>
                 </div>           
             </div>
             
