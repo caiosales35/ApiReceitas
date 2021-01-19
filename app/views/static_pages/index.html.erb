@@ -37,6 +37,8 @@
                                 let response = JSON.parse(xhr.responseText);
                                 if (response.status = 404){
                                     alert(response.status + " - Id " + response.error);
+                                } else {
+                                    alert(response);
                                 }
                             } else {
                                 alert("Receita removida com Sucesso!");
@@ -110,6 +112,52 @@
                             <input type="number" class="form-control" id="userIdRecipes" required min="0" value="0">
                         </div>
                         <button onclick="listRecipesById();" class="btn btn-success mt-3">Listar Receitas</button>
+                    </form>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row mt-4">
+                <div class="col-12 col-sm-6">
+                    <form id="formCreateRecipe" method="post" action="api/v1/recipes">
+                        <h3>Rota para Criar uma Receita</h3>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Titulo</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Categoria</label>
+                            <select class="form-control" required id="category" name="category">
+                                <option value="apettizer">Aperitivo</option>
+                                <option value="entree">Entrada</option>
+                                <option value="snack">Lanche</option>
+                                <option value="desert">Sobremesa</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="preparation_time">Tempo para preparar</label>
+                                <input type="number" class="form-control" id="preparation_time" name="preparation_time" required min="0" step="0.5" value="0">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="oven_time">Tempo no forno</label>
+                                <input type="number" class="form-control" id="oven_time" name="oven_time" required min="0" step="0.5" value="0">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ingredients">Ingredientes</label>
+                            <textarea class="form-control" id="ingredients" name="ingredients" rows="2" required style="resize: none"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="steps">Passo a Passo</label>
+                            <textarea class="form-control" id="steps" name="steps" rows="2" required style="resize: none"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Image" class="form-label">URL de uma imagem da receita (opcional)</label>
+                            <input type="text" class="form-control" id="Image" name="Image">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Criar Receita</button>
                     </form>
                 </div>
             </div>
