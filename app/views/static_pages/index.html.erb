@@ -11,6 +11,56 @@
 
     <body>
         <script>
+            function login() {
+                var url = "api/v1/login";
+                var data = {};
+                data.email = document.getElementById("loginEmail").value;
+                data.password = document.getElementById("loginPassword").value;
+
+                var json = JSON.stringify(data);
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.onload = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == "200" && xhr.responseText){
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.user_id){
+                                alert("Logado com sucesso! - " + xhr.responseText);
+                            } else {
+                                alert("Erro... " + xhr.responseText)
+                            }   
+                        }
+                        document.location.reload(true);
+                    }  
+                }
+                xhr.send(json);
+            }
+
+            function cadastroUser() {
+                var url = "api/v1/users";
+                var data = {};
+                data.email = document.getElementById("cadastroEmail").value;
+                data.password = document.getElementById("cadastroPassword").value;
+                data.password_confirmation = document.getElementById("cadastroPasswordConfirmation").value;
+
+                var json = JSON.stringify(data);
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.onload = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == "201" && xhr.responseText){
+                            alert("Cadastrado com sucesso! - " + xhr.responseText);
+                        } else if (xhr.status == "422" && xhr.responseText) {
+                            alert("Erro... " + xhr.responseText)
+                        }
+                        document.location.reload(true);
+                    }  
+                }
+                xhr.send(json);
+            }
+
             function listRecipesById(){
                 var id = document.getElementById("userIdRecipes").value;
                 var form = document.getElementById("formListarReceitasId");
@@ -120,6 +170,39 @@
                 xhr.send();
             }
 
+            function createRecipe() {
+                url = "api/v1/recipes/";
+
+                var data = {};
+                data.title = document.getElementById("title").value;
+                data.category = document.getElementById("category").value;
+                data.preparation_time = document.getElementById("preparation_time").value;
+                data.oven_time = document.getElementById("oven_time").value;
+                data.ingredients = document.getElementById("ingredients").value;
+                data.steps = document.getElementById("steps").value;
+                data.Image = document.getElementById("Image").value;
+                
+                if (Image != "") data.Image = Image;
+
+                var json = JSON.stringify(data);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.onload = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == "201" && xhr.responseText){
+                            var response = JSON.parse(xhr.responseText);
+                            alert("Criada com sucesso! - Id: " + response.id);
+                        } else if (xhr.responseText) {
+                            alert("Erro ao cadastrar receita... " + xhr.responseText)
+                        }
+                        document.location.reload(true);
+                    }  
+                }
+                xhr.send(json);
+            }
+
             function createRecipeLogged(){
                 url = "api/v1/recipes/";
 
@@ -169,7 +252,7 @@
 
             <div class="row">
                 <div class="col-12 col-sm-6">
-                    <form method="post" id="formLogin" action="api/v1/login" >
+                    <form id="formLogin">
                         <h3>Rota de Login</h3>
                         <div class="mb-3">
                             <label for="loginEmail" class="form-label">Email</label>
@@ -179,15 +262,15 @@
                             <label for="loginPassword" class="form-label">Senha</label>
                             <input type="password" class="form-control" id="loginPassword" name="password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
                     </form>
+                    <button onclick="login();" class="btn btn-primary">Login</button>
                 </div>
                 <div class="col-12 col-sm-6">
-                    <form method="post" id="formCadastro" action="api/v1/users">
+                    <form id="formCadastro" >
                         <h3>Rota de Cadastro de Usuario</h3>
                         <div class="mb-3">
                             <label for="cadastroEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="loginEmail" name="email" required>
+                            <input type="email" class="form-control" id="cadastroEmail" name="email" required>
                         </div>
                         <div class="mb-3">
                             <label for="cadastroPassword" class="form-label">Senha</label>
@@ -197,8 +280,8 @@
                             <label for="cadastroPasswordConfirmation" class="form-label">Confirmação de Senha</label>
                             <input type="password" class="form-control" id="cadastroPasswordConfirmation" name="password_confirmation" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Cadastrar</button>
                     </form>
+                    <button onclick="cadastroUser();" class="btn btn-primary">Cadastrar</button>
                 </div>
             </div>
 
@@ -227,7 +310,7 @@
 
             <div class="row mt-4">
                 <div class="col-12 col-sm-6">
-                    <form id="formCreateRecipe" method="post" action="api/v1/recipes">
+                    <form id="formCreateRecipe">
                         <h3>Rota para Criar uma Receita</h3>
                         <div class="mb-3">
                             <label for="title" class="form-label">Titulo</label>
@@ -264,8 +347,8 @@
                             <label for="Image" class="form-label">URL de uma imagem da receita (opcional)</label>
                             <input type="text" class="form-control" id="Image" name="Image">
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Criar Receita</button>
                     </form>
+                    <button onclick="createRecipe();" class="btn btn-primary mt-3">Criar Receita</button>
                 </div>
                 <div class="col-12 col-sm-6">
                     <form id="formChangeRecipe">
