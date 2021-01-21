@@ -44,7 +44,9 @@ Lista receitas cadastradas por um usuario, utilizando o id do usuario; não é n
 
 ### Auto login: GET "/api/v1/auto_login"
 Rota para obter dados do usuário logado atualmente. Envia-se o token no cabeçalho da requisição, gerado para o usuário no momento do login.
-> Ex: http://<n/>127.0.0.1:3000/api/v1/auto_login
+> Ex: http://<n/>127.0.0.1:3000/api/v1/auto_login <br /><br />
+> Ex de token de usuário no cabeçalho da requisição:
+> Authorization: Bearer eXJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3fQ._sNft-gxvk8XA2nmRidMzRRh-BOBM-kuUM2odTcjR84
 
 ### Detalhes de uma receita: GET "/api/v1/recipes/id_da_receita"
 Lista os detalhes de uma receita especifica, utilizando o id da receita; não é necessario enviar token de login de usuario no cabeçalho da requisição.
@@ -100,7 +102,7 @@ Faz login no sistema, enviando os dados, como no exemplo, via JSON. Obtemos como
 >}
 
 ### Editar receita: PUT "/api/v1/recipes/id_da_receita"
-Edita uma receita de acordo com seu id, enviando os dados via JSON, só é necessario enviar os campos que se deseja atualizar. Não é necessário estar logado no sistema, e não é permitido alterar o usuario a qual a receita pertence.
+Edita uma receita de acordo com seu id, enviando os dados via JSON, só é necessario enviar os campos que se deseja atualizar. Não é necessário eviar token de login de usuário no cabeçalho da requisição, e não é permitido alterar o usuario a qual a receita pertence.
 > Ex: http://<n/>127.0.0.1:3000/api/v1/recipes/17 <br /><br />
 > Ex JSON: { <br />
 >	"title": "Leite com mel e limao show", <br />
